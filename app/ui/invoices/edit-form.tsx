@@ -1,5 +1,6 @@
 'use client';
 
+import { useFormState } from 'react-dom';
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
 import {
   CheckIcon,
@@ -17,12 +18,14 @@ export default function EditInvoiceForm({
 }: {
   invoice: InvoiceForm;
   customers: CustomerField[];
-	}) {
-	const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
-	
+}) {
+  const initialState = { message: null, errors: {} };
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+  const [state, dispatch] = useFormState(updateInvoiceWithId, initialState);
+
   return (
-		<form action={updateInvoiceWithId}>
-			{/* <input type="hidden" name="id" value={invoice.id} /> */}
+    <form action={dispatch}>
+      {/* <input type="hidden" name="id" value={invoice.id} /> */}
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
